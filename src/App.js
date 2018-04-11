@@ -8,10 +8,24 @@ class App extends Component {
   state = {
     todos: {},
     todoList: [],
-    loaded: false
+    loaded: false,
+    newTitle: ''
   };
 
   actions = {
+    changeTitleInput: title => {
+      this.setState({
+        newTitle: title
+      });
+    },
+    submit: () => {
+      db.addTodo({
+        title: this.state.newTitle
+      });
+      this.setState({
+        newTitle: ''
+      });
+    },
     syncTodos: () => {
       db.syncTodos(todos => {
         this.setState({
@@ -32,11 +46,30 @@ class App extends Component {
     return (
       <div>
         <h1>Todos</h1>
+        <Form {...this.state} {...this.actions} />
         <Todos {...this.state} />
       </div>
     );
   }
 }
+
+const Form = ({ newTitle, changeTitleInput, submit }) => (
+  <form
+    onSubmit={e => {
+      e.preventDefault();
+      submit();
+    }}
+  >
+    <input
+      type="text"
+      value={newTitle}
+      onChange={e => {
+        changeTitleInput(e.target.value);
+      }}
+    />
+    <button disabled={!newTitle}>Submit</button>
+  </form>
+);
 
 const Todos = props => {
   return (
