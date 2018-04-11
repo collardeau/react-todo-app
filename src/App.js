@@ -72,10 +72,9 @@ const Form = ({ newTitle, changeTitleInput, submit }) => (
 );
 
 const Todos = props => {
+  const { todoList } = props;
   return (
-    <div>
-      {props.todoList.map(todo => <div key={todo.id}>{todo.title}</div>)}
-    </div>
+    <div>{todoList.map(({ id, title }) => <div key={id}>{title}</div>)}</div>
   );
 };
 
