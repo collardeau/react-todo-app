@@ -47,8 +47,15 @@ function updateTodo(id, changes) {
   refreshTodos();
 }
 
+function deleteTodo(id) {
+  const { [id]: value, ...todos } = db.todos;
+  db.todos = todos;
+  refreshTodos();
+}
+
 export default {
   syncTodos,
   addTodo,
-  updateTodo
+  updateTodo,
+  deleteTodo
 };
