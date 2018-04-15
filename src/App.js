@@ -31,6 +31,9 @@ class App extends Component {
         newTitle: ''
       });
     },
+    deleteTodo: id => {
+      db.deleteTodo(id);
+    },
     syncTodos: () => {
       db.syncTodos(todos => {
         this.setState({
@@ -77,7 +80,7 @@ const Form = ({ newTitle, changeTitleInput, submit }) => (
 );
 
 const Todos = props => {
-  const { todoList, toggle } = props;
+  const { todoList, toggle, deleteTodo } = props;
   return (
     <div>
       {todoList.map(({ id, title, done }) => (
@@ -92,6 +95,12 @@ const Todos = props => {
           <span style={{ textDecoration: done && 'line-through' }}>
             {title}
           </span>
+          <button 
+            style={{ backgroundColor: "red", color: "white" }}
+            onClick={ () => {deleteTodo(id); }}
+          >
+            Delete
+          </button>
         </div>
       ))}
     </div>
